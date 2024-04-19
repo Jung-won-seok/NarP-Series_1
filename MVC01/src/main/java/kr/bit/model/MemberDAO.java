@@ -10,10 +10,44 @@ public class MemberDAO {
 
 	// 데이터베이스 연결객체 생성
 	public void getConnect() {
-		String URL="jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&serverTimeZone=UTC";
-		String user="root";
-		String password="admin12345";
-		//MYSQL Driver Loading
-		
+		// 데이터베이스 접속URL
+		String URL = "jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&serverTimeZone=UTC";
+		String user = "root";
+		String password = "admin12345";
+		// MYSQL Driver Loading
+		try {
+			// 동적로딩(실행시점에서 객체를 생성하는 방법)
+			Class.forName("com.mysql.jdbc.Driver"); // 동적으로 드라이버를 로딩하고, 그것과 자바의 드라이버를 내부적으로 연결한다.
+			conn = DriverManager.getConnection(URL, user, password); // 파라메타 가져와서 접속시도
+		} catch (Exception e) { // 예외처리
+			e.printStackTrace();
+		}
+	}
+
+	// 회원저장 동작
+	public int memberInsert(MemberVO vo) {
+		// ?(파라메터)
+		String SQL = "insert into member(id, pass, name, age, email, phone) values(?,?,?,?,?,?)";
+		getConnect();
+		// SQL문장을 전송하는 객체 생성
+		int cnt = -1;
+		try {
+			ps = conn.prepareStatement(SQL); // 미리 컴파일을 시킨다.(속도가 빠르기 때문)
+			ps.setString(1, vo.getId());
+			ps.setString(2, vo.getPass());
+			ps.setString(3, vo.getName());
+			ps.setInt(4, vo.getAge());
+			ps.setString(5, vo.getEmail());
+			ps.setString(6, vo.getPhone());
+
+			// 1,0
+			cnt = ps.executeUpdate(); // 전송(실행)
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnt; //1 or 0
 	}
 }
+//Driver클래스를 메모리에 로딩을 하고 getConnection메서드로 URL, user, password의 접속정보를 주면
+//커넥션이 만들어진다.(드라이버 관리 -> DriverManager)

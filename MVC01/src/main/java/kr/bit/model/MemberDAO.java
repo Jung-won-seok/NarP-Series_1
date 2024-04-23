@@ -2,6 +2,7 @@ package kr.bit.model;
 
 //JDBC->myBatis, JPA
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MemberDAO {
 	private Connection conn;
@@ -45,9 +46,51 @@ public class MemberDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally { // 에러의 유무에 상관없이 무조건 실행되는 블럭
+			dbClose();
 		}
-		return cnt; //1 or 0
+		return cnt; // 1 or 0
 	}
+
+	// 회원(VO)전체 리스트(ArrayList) 가져오기
+	public ArrayList<MemberVO> memberList() {
+		String SQL = "select * from member";
+		getConnect();
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+		try {
+			ps = conn.prepareStatement(SQL);
+			rs = ps.executeQuery(); // rs->커서(rs가 결과 집합을 가리키는 객체이다.)
+			while(rs.next()) { //데이터가 있을 때 까지 db에서 데이터를 가져와서 묶고(생성자로), 담고(ArrayList)
+				int num = rs.getInt("num");
+				String id = rs.getString("id");
+				String pass = rs.getString("pass");
+				String name = rs.getString("name");
+				int age = rs.getInt("age");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
+				//묶고 -> 담고
+				MemberVO vo = new MemberVO(num, id, pass, name, age, email, phone);
+				list.add(vo);
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose();
+		}
+		return list;
+	}// memberList
+
+	// 데이터베이스 연결 끊기
+	public void dbClose() {
+		try {
+		if(rs!=null) rs.close();
+		if(ps!=null) ps.close();
+		if(conn!=null) conn.close();
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+}
 }
 //Driver클래스를 메모리에 로딩을 하고 getConnection메서드로 URL, user, password의 접속정보를 주면
 //커넥션이 만들어진다.(드라이버 관리 -> DriverManager)

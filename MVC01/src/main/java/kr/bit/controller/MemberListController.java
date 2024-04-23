@@ -19,7 +19,7 @@ public class MemberListController extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		//1. 클라이언트의 요청받기(/memberList.do)
-		//2. 회원전체 리스트 가져오기(Model 연동)
+		//2. 회원전체 리스트 가져오기(Model연동)
 		MemberDAO dao = new MemberDAO();
 		ArrayList<MemberVO> list = dao.memberList();
 		//3. 회원전체 리스트를 HTML로 만들어서 응답하기

@@ -31,7 +31,7 @@ public class MemberListController extends HttpServlet {
 		out.println("<html>");
 		out.println("<body>");
 
-		out.println("<table>");
+		out.println("<table border='1'>");
 		out.println("<thead>");
 		out.println("<tr>");
 		out.println("<th>번호</th>");

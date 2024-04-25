@@ -96,6 +96,22 @@ public class MemberDAO {
 		}
 		return cnt;
 	}
+	public void memberContent(int num) {
+		String SQL = "select * from member where num=?";
+		getConnect();
+		try {
+			ps=conn.prepareStatement(SQL);
+			ps.setInt(1, num);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				//회원한명의 정보를 가져와서 -> 묶고(VO)
+			}
+		}catch(Exception e){
+			
+		}finally {
+			dbClose();
+		}
+	}
 
 	// 데이터베이스 연결 끊기
 	public void dbClose() {

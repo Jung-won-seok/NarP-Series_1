@@ -41,6 +41,7 @@ public class MemberListController extends HttpServlet {
 		out.println("<th>나이</th>");
 		out.println("<th>이메일</th>");
 		out.println("<th>전화번호</th>");
+		out.println("<th>삭제</th>");
 	    out.println("</tr>");
 		out.println("</thead>");
 		out.println("<tbody>");
@@ -48,7 +49,7 @@ public class MemberListController extends HttpServlet {
 		for(MemberVO vo: list) {
 		out.println("<tr>");
 		out.println("<td>"+vo.getNum()+"</td>");
-		out.println("<td>"+vo.getId()+"</td>");
+		out.println("<td><a href='MVC01/memberContent.do>"+vo.getId()+"</a></td>");
 		out.println("<td>"+vo.getPass()+"</td>");
 		out.println("<td>"+vo.getName()+"</td>");
 		out.println("<td>"+vo.getAge()+"</td>");

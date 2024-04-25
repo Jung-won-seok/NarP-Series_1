@@ -80,6 +80,22 @@ public class MemberDAO {
 		}
 		return list;
 	}// memberList
+	
+	public int memeberDelete(int num) {
+		String SQL = "delete from member where num=?";
+		getConnect();
+		int cnt = -1;
+		try {
+			ps=conn.prepareStatement(SQL);
+			ps.setInt(1, num);
+			cnt=ps.executeUpdate(); //1 or 0
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			dbClose();
+		}
+		return cnt;
+	}
 
 	// 데이터베이스 연결 끊기
 	public void dbClose() {

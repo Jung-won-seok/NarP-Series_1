@@ -103,8 +103,8 @@ public class MemberDAO {
 			ps=conn.prepareStatement(SQL);
 			ps.setInt(1, num);
 			rs=ps.executeQuery();
-			if(rs.next()) {
-				//회원한명의 정보를 가져와서 -> 묶고(VO)
+			if(rs.next() ) {
+				//회원한명의 정보를 가져와서 ->묶고(VO)
 			}
 		}catch(Exception e){
 			
